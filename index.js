@@ -16,29 +16,45 @@ form.addEventListener("submit", async (e)=>{
 })
 
 addEventListener("DOMContentLoaded", async()=>{
+    const tabla = document.querySelector("table");
+    const tbody = tabla.querySelector("tbody");
     let res = await(await fetch(uri).json);
-    const tabla=document.querySelector("table");
-    const tr=document.querySelector("tbody");
-    res.forEach(element => {
-        tr.insertAdjacentHTML=`
+    console.log(res);
+    res.map((element) => {
+        const tr=`
             <tr>
-                <td>${res.id}</td>
-                <td>res.caja</td>
-                <td>res.monto</td>
-                <td></td>
+                <td>${element.id}</td>
+                <td>${element.caja}</td>
+                <td>${element.monto}</td>
+                <td>
+                <button id="${element.id}" class="edit">Edit</button></td>
+                <button id="${element.id}" class="delet">Delete</button>
             </tr>
         `;
+        tbody.insertAdjacentElement("beforeend", tr);
     });
-})
+});
 
 
 
 const delet = async (id)=>{
-    e.preventDefault();
-    const datos=Object.fromEntries(new FormData(e.target));
     let config ={
         method:"DELETE",
         headers:{"content-type":"application/json"}
     }
-    let res = await (await fetch(uri, config)).json();
+    let res = await (await fetch(uri + "/" + id, config)).json();
+}
+
+const edit = async (id)=>{
+    const edit =document.querySelector(".edit");
+    edit.addEventListener("click", (e)=>{
+        e.preventDefault();
+        
+    })
+    let config ={
+        method:"PUT",
+        headers:{"content-type":"application/json"},
+        body: JSON.stringify()
+    }
+    let res = fetch(uri + "/" + id, config);
 }
