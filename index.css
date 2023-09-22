@@ -39,6 +39,10 @@ button[type="submit"] {
     border-radius: 5px;
 }
 
+button:hover{
+    background-color: #044f9f;
+}
+
 .table {
     width: 100%;
     background-color: white;
@@ -58,4 +62,20 @@ button[type="submit"] {
 
 .table tbody tr:hover {
     background-color: #e0e0e0;
+}
+
+.delet{
+    background-color: white;
+    color: purple;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 35px;
+}
+
+.edit{
+    background-color: white;
+    color: purple;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 35px;
 }
