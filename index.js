@@ -13,41 +13,52 @@ form.addEventListener("submit", async (e)=>{
     }
     let res = await (await fetch(uri, config)).json();
     console.log(res)
-})
+});
 
 addEventListener("DOMContentLoaded", async()=>{
-    const tabla = document.querySelector("table");
+    const tabla = document.querySelector("table"); 
+
     const tbody = tabla.querySelector("tbody");
-    let res = await(await fetch(uri).json);
+    const res = await(await fetch(uri)).json();
+
     console.log(res);
-    res.map((element) => {
+
+    res.forEach((element) => {
+        console.log(element)
         const tr=`
             <tr>
                 <td>${element.id}</td>
                 <td>${element.caja}</td>
                 <td>${element.monto}</td>
                 <td>
-                <button id="${element.id}" class="edit">Edit</button></td>
+                <button id="${element.id}" class="edit">Edit</button>
                 <button id="${element.id}" class="delet">Delete</button>
+                </td>
             </tr>
         `;
-        tbody.insertAdjacentElement("beforeend", tr);
+        tbody.insertAdjacentHTML("beforeend", tr);
     });
 });
 
 
 
 const delet = async (id)=>{
-    let config ={
-        method:"DELETE",
-        headers:{"content-type":"application/json"}
-    }
-    let res = await (await fetch(uri + "/" + id, config)).json();
+    const res = await(await fetch(uri)).json();
+    const btnDelete = document.querySelector(".delet");
+    btnDelete.forEach((element)=>{
+        element.addEventListener("click", (e)=>{
+            let config ={
+                method:"DELETE",
+                headers:{"content-type":"application/json"}
+            }
+            let res = fetch(uri + "/" + id, config);
+        });
+    });
 }
 
 const edit = async (id)=>{
-    const edit =document.querySelector(".edit");
-    edit.addEventListener("click", (e)=>{
+    const btnEdit =document.querySelector(".edit");
+    btnEdit.addEventListener("click", (e)=>{
         e.preventDefault();
         
     })
@@ -56,5 +67,5 @@ const edit = async (id)=>{
         headers:{"content-type":"application/json"},
         body: JSON.stringify()
     }
-    let res = fetch(uri + "/" + id, config);
-}
+    let res = await (await fetch(uri + "/" + id, config)).json();
+};
