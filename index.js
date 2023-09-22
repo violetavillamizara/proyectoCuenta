@@ -28,7 +28,7 @@ addEventListener("DOMContentLoaded", async()=>{
         console.log(element)
         const tr=`
             <tr>
-                <td>${element.id}</td>
+                <td >${element.id}</td>
                 <td>${element.caja}</td>
                 <td>${element.monto}</td>
                 <td>
@@ -39,35 +39,47 @@ addEventListener("DOMContentLoaded", async()=>{
         `;
         tbody.insertAdjacentHTML("beforeend", tr);
     });
+
+    delet();
+    edit();
 });
 
 
 
 const delet = async ()=>{
-    //const res = await(await fetch(uri)).json();
-
-    const btnDelete = document.querySelector(".delet");
+    const btnDelete = document.querySelectorAll(".delet");
     btnDelete.forEach((element)=>{
-        const id = btnDelete[element].id
+        
         element.addEventListener("click", async(e)=>{
+            const id = e.target.getAttribute("id");
             let config ={
                 method:"DELETE"
             }
-            let res = await fetch(uri + "/" + id, config);
+            await fetch(uri + "/" + id, config);
+            window.location.reload();
         });
     });
-}
+};
 
-const edit = async (id)=>{
-    const btnEdit =document.querySelector(".edit");
-    btnEdit.addEventListener("click", (e)=>{
-        e.preventDefault();
-        
+const edit = async ()=>{
+    const btnEdit = document.querySelectorAll(".edit");
+    btnEdit.forEach((element)=>{
+
+    element.addEventListener("click", async(e)=>{
+        const row =element.closest("tr");
+        console.log(row);
+        const id = row.querySelector("td:nth-child(1)")
+        const tipo = row.querySelector("td:nth-child(2)")
+        const valor = row.querySelector("td:nth-child(3)")
+        console.log(id,tipo,valor);
+
+        document.querySelector("#valor").value=valor
+        // let config ={
+        //     method:"PUT",
+        //     headers:{"content-type":"application/json"},
+        //     body: JSON.stringify()
+        // }
+        // let res = await (await fetch(uri + "/" + id, config)).json();
     })
-    let config ={
-        method:"PUT",
-        headers:{"content-type":"application/json"},
-        body: JSON.stringify()
-    }
-    let res = await (await fetch(uri + "/" + id, config)).json();
+});
 };
