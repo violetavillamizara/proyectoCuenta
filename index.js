@@ -13,6 +13,7 @@ form.addEventListener("submit", async (e)=>{
     }
     let res = await (await fetch(uri, config)).json();
     console.log(res)
+    window.location.reload();
 });
 
 addEventListener("DOMContentLoaded", async()=>{
@@ -42,16 +43,17 @@ addEventListener("DOMContentLoaded", async()=>{
 
 
 
-const delet = async (id)=>{
-    const res = await(await fetch(uri)).json();
+const delet = async ()=>{
+    //const res = await(await fetch(uri)).json();
+
     const btnDelete = document.querySelector(".delet");
     btnDelete.forEach((element)=>{
-        element.addEventListener("click", (e)=>{
+        const id = btnDelete[element].id
+        element.addEventListener("click", async(e)=>{
             let config ={
-                method:"DELETE",
-                headers:{"content-type":"application/json"}
+                method:"DELETE"
             }
-            let res = fetch(uri + "/" + id, config);
+            let res = await fetch(uri + "/" + id, config);
         });
     });
 }
