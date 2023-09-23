@@ -2,7 +2,7 @@
 ## Calcula tus cuentas
 ### Ingresos y Egresos
 
-![image](/home/violeta/Pictures/Screenshot_20230922_194614.png)
+![image](img.png)
 
 ¡Bienvenido! Esta aplicación web te permite llevar un registro de tus ingresos y egresos de manera eficiente y sencilla.
 
