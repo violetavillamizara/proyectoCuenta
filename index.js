@@ -1,6 +1,7 @@
 const uri="https://650c15b747af3fd22f67006b.mockapi.io/cuentaIE";
 const form=document.querySelector("form");
 
+
 form.addEventListener("submit", async (e)=>{
     e.preventDefault();
     const datos=Object.fromEntries(new FormData(e.target));
@@ -16,6 +17,7 @@ form.addEventListener("submit", async (e)=>{
     window.location.reload();
 });
 
+
 addEventListener("DOMContentLoaded", async()=>{
     const tabla = document.querySelector("table"); 
 
@@ -28,9 +30,9 @@ addEventListener("DOMContentLoaded", async()=>{
         console.log(element)
         const tr=`
             <tr>
-                <td >${element.id}</td>
-                <td>${element.caja}</td>
-                <td>${element.monto}</td>
+                <td id="uno" >${element.id}</td>
+                <td id="dos" >${element.caja}</td>
+                <td id="tres" >${element.monto}</td>
                 <td>
                 <button id="${element.id}" class="edit">Edit</button>
                 <button id="${element.id}" class="delet">Delete</button>
@@ -41,7 +43,10 @@ addEventListener("DOMContentLoaded", async()=>{
     });
 
     delet();
-    edit();
+    // const btnEdit = document.querySelectorAll(".edit");
+    // btnEdit.addEventListener("click", edit())? edit():{};
+    // balance();
+    balance();
 });
 
 
@@ -58,8 +63,10 @@ const delet = async ()=>{
             await fetch(uri + "/" + id, config);
             window.location.reload();
         });
+        balance();
     });
 };
+
 
 const edit = async ()=>{
     const btnEdit = document.querySelectorAll(".edit");
@@ -68,18 +75,51 @@ const edit = async ()=>{
     element.addEventListener("click", async(e)=>{
         const row =element.closest("tr");
         console.log(row);
-        const id = row.querySelector("td:nth-child(1)")
-        const tipo = row.querySelector("td:nth-child(2)")
-        const valor = row.querySelector("td:nth-child(3)")
+        const id = row.querySelector("#uno");
+        const tipo = row.querySelector("#dos");
+        const valor = row.querySelector("#tres");
         console.log(id,tipo,valor);
 
-        document.querySelector("#valor").value=valor
-        // let config ={
-        //     method:"PUT",
-        //     headers:{"content-type":"application/json"},
-        //     body: JSON.stringify()
-        // }
-        // let res = await (await fetch(uri + "/" + id, config)).json();
+        document.querySelector("#valor").value=valor;
+        document.querySelector('input[value="${tipo}"]').checked=true;
+
+        const editBtn=document.querySelector("button");
+        editBtn.textContent="update";
+
+        subir();
     })
 });
 };
+
+const subir= async()=>{
+    let config ={
+        method:"PUT",
+        headers:{"content-type":"application/json"},
+        body: JSON.stringify()
+    }
+    let res = await (await fetch(uri + "/" + id, config)).json();
+}
+
+// const balance= async()=>{
+//     let total=0;
+//     const valor=document.querySelectorAll("#valor");
+//     const input=document.querySelectorAll('[name="caja"]');
+//     let actual=(input===value==="ingreso")?total+=valor:total-=valor;
+//     const span=document.querySelector("span");
+//     span.innerText=total;
+// };
+
+const balance = async () => {
+    let total = 0;
+    const valor = parseFloat(document.querySelectorAll("#valor").value);
+    const input = document.querySelectorAll('[name="caja"]').value;
+  
+    if (input === "ingreso") {
+      total += valor;
+    } else if (input === "egreso") {
+      total -= valor;
+    }
+  
+    const span = document.querySelector("span");
+    span.innerText = total;
+  };
