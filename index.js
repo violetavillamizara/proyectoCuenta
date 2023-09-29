@@ -1,5 +1,7 @@
 const uri = "https://651673ef09e3260018c9c8d8.mockapi.io/cuentaIE";
 const form = document.querySelector("form");
+let total = 0;
+
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -28,6 +30,7 @@ addEventListener("DOMContentLoaded", async () => {
 
   const res = await fetch(uri);
   const data = await res.json();
+  console.log(data)
 
   data.forEach((element) => {
     const tr = `
@@ -42,11 +45,12 @@ addEventListener("DOMContentLoaded", async () => {
       </tr>
     `;
     tbody.insertAdjacentHTML("beforeend", tr);
+
+    balance(element);
   });
 
   delet();
   edit();
-  balance();
 });
 
 const delet = () => {
@@ -114,21 +118,17 @@ const subir = async (id) => {
   }
 };
 
-const balance = () => {
-  let total = 0;
-  const valorInput = document.querySelector("#valor");
-  const valor = parseFloat(valorInput.value);
-  const input = document.querySelector('input[name="caja"]:checked').value;
+const balance = (element) => {
+  console.log(element)
 
-  if (!isNaN(valor)) {
-    if (input === "ingreso") {
-      total += valor;
-    } else if (input === "egreso") {
-      total -= valor;
+  if (element.caja==="ingreso") {
+      total += element.monto;
+    } else {
+      total -= element.monto;
     }
+    const span = document.querySelector("h3");
+    span.innerHTML=`<h3>Balance actual:${total}</h3>`;
   }
 
-  const span = document.querySelector("h3 span");
-  span.innerText = total;
-};
+  
 
