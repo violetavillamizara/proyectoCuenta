@@ -9,18 +9,23 @@ form.addEventListener("submit", async (e) => {
   datos.monto = typeof datos.monto === "string" ? Number(datos.monto) : 0;
   console.log(datos);
 
-  let config = {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify(datos),
-  };
-
-  let res = await fetch(uri, config);
-  if (res.ok) {
-    console.log("Registro exitoso");
-    window.location.reload();
-  } else {
-    console.error("Error al agregar el registro");
+  const editBtn = document.querySelector("button[type='submit']");
+  if(editBtn.textContent === "Update"){
+    subir();
+  }else{
+    let config = {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(datos),
+    };
+  
+    let res = await fetch(uri, config);
+    if (res.ok) {
+      console.log("Registro exitoso");
+      window.location.reload();
+    } else {
+      console.error("Error al agregar el registro");
+    }
   }
 });
 
@@ -86,27 +91,22 @@ const edit = () => {
 
       const editBtn = document.querySelector("button[type='submit']");
       editBtn.textContent = "Update";
-      editBtn.setAttribute("data-edit-id", id);
+      editBtn.setAttribute("data-edit", id);
+
     });
   });
 };
 
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const editId = e.target.getAttribute("data-edit-id");
-  if (editId) {
-    subir(editId);
-  }
-});
-
-const subir = async (id) => {
+const subir = async () => {
   const valor = document.querySelector("#valor").value;
   const tipo = document.querySelector('input[name="caja"]:checked').value;
+  const editBtn = document.querySelector("button[type='submit']");
+  const id = editBtn.dataset.edit
 
   let config = {
     method: "PUT",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify({ monto: Number(valor), caja: tipo }),
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ caja: tipo, monto: Number(valor) }),
   };
 
   let res = await fetch(uri + "/" + id, config);
