@@ -6,6 +6,8 @@
 
 ¡Bienvenido! Esta aplicación web te permite llevar un registro de tus ingresos y egresos de manera eficiente y sencilla.
 
+![image](tabla.png)
+![image](delete.png)
 ## Funcionalidades
 
 - Registra tus transacciones ya sea un ingreso o un egreso.
