@@ -1,4 +1,4 @@
-const uri = "https://651673ef09e3260018c9c8d8.mockapi.io/cuentaIE";
+const uri = "http://127.0.0.0:5011/cuentaIE";
 const form = document.querySelector("form");
 let total = 0;
 
